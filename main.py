@@ -139,21 +139,22 @@ def update():
 				pygame.draw.rect(screen, (255, 255, 255), (i*10, j*10, 10, 10))
 	pygame.display.update()
 
-sys.setrecursionlimit(100000000)
-pygame.init()
-width, height = 51, 51
-screen = pygame.display.set_mode((width*10, height*10))
+if __name__ == "__main__":
+	sys.setrecursionlimit(100000000)
+	pygame.init()
+	width, height = 51, 51
+	screen = pygame.display.set_mode((width*10, height*10))
 
-draw_maze = threading.Thread(target=Maze(width, height, (1, 1), screen).generate)
-draw_maze.setDaemon(True)
-draw_maze.start()
-while threading.active_count() > 1: pygame.display.update()
-solve_maze = threading.Thread(target=astar, args=(grid, (1, 1), (49, 49), screen,))
-solve_maze.setDaemon(True)
-solve_maze.start()
+	draw_maze = threading.Thread(target=Maze(width, height, (1, 1), screen).generate)
+	draw_maze.setDaemon(True)
+	draw_maze.start()
+	while threading.active_count() > 1: pygame.display.update()
+	solve_maze = threading.Thread(target=astar, args=(grid, (1, 1), (49, 49), screen,))
+	solve_maze.setDaemon(True)
+	solve_maze.start()
 
-running = True
-while running:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			running = False
+	running = True
+	while running:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				running = False
